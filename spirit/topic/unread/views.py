@@ -20,20 +20,18 @@ def index(request):
         .for_access(user=request.user)
         .for_unread(user=request.user)
         .with_bookmarks(user=request.user))
-
     page = paginate(
         request,
         query_set=topics,
         lookup_field="last_active",
         page_var='topic_id')
     next_page_pk = None
-
     if page:
         next_page_pk = page[-1].pk
 
-    context = {
-        'page': page,
-        'next_page_pk': next_page_pk
-    }
-
-    return render(request, 'spirit/topic/unread/index.html', context)
+    return render(
+        request=request,
+        template_name='spirit/topic/unread/index.html',
+        context={
+            'page': page,
+            'next_page_pk': next_page_pk})
